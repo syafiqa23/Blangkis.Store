@@ -30,6 +30,7 @@ if (session()->getFlashData('failed')) {
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nama</th>
+            <th scope="col">Deskripsi</th>
             <th scope="col">Harga</th>
             <th scope="col">Jumlah</th>
             <th scope="col">Foto</th>
@@ -41,10 +42,11 @@ if (session()->getFlashData('failed')) {
             <tr>
                 <th scope="row"><?php echo $index + 1 ?></th>
                 <td><?php echo $produk['nama'] ?></td>
+                <td><?php echo $produk['deskripsi'] ?></td>
                 <td><?php echo $produk['harga'] ?></td>
                 <td><?php echo $produk['jumlah'] ?></td>
                 <td>
-                    <?php if ($produk['foto'] != '' and file_exists("NiceAdmin/assets/img/" . $produk['foto'] . "")) : ?>
+                    <?php if ($produk['foto'] != '' and file_exists(FCPATH . "NiceAdmin/assets/img/" . $produk['foto'] . "")) : ?>
                         <img src="<?php echo base_url() . "NiceAdmin/assets/img/" . $produk['foto'] ?>" width="100px">
                     <?php endif; ?>
                 </td>
@@ -72,6 +74,11 @@ if (session()->getFlashData('failed')) {
                                     <label for="name">Nama</label>
                                     <input type="text" name="nama" class="form-control" id="nama" value="<?= $produk['nama'] ?>" placeholder="Nama Barang" required>
                                 </div>
+                                <div class="col-12">
+                                    <label for="deskripsi" class="form-label">Deskripsi</label>
+                                    <textarea name="deskripsi" class="form-control" id="deskripsi" required><?= old('deskripsi') ?></textarea>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="name">Harga</label>
                                     <input type="text" name="harga" class="form-control" id="harga" value="<?= $produk['harga'] ?>" placeholder="Harga Barang" required>
@@ -121,6 +128,11 @@ if (session()->getFlashData('failed')) {
                         <label for="name">Nama</label>
                         <input type="text" name="nama" class="form-control" id="nama" placeholder="Nama Barang" required>
                     </div>
+                    <div class="form-group">
+                        <label for="deskripsi">Deskripsi</label>
+                        <textarea name="deskripsi" class="form-control" id="deskripsi" placeholder="Deskripsi Produk" required><?= old('deskripsi') ?></textarea>
+                    </div>
+
                     <div class="form-group">
                         <label for="name">Harga</label>
                         <input type="text" name="harga" class="form-control" id="harga" placeholder="Harga Barang" required>

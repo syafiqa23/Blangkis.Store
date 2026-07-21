@@ -28,6 +28,21 @@ class Transaction extends Migration
                 'type' => 'TEXT',
                 'null' => FALSE,
             ],
+            'kelurahan' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => TRUE,
+            ],
+            'kelurahan_nama' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
+            ],
+            'layanan' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => TRUE,
+            ],
             'ongkir' => [
                 'type' => 'DOUBLE',
                 'null' => TRUE
@@ -44,6 +59,21 @@ class Transaction extends Migration
             'updated_at' => [
                 'type' => 'datetime',
                 'null' => TRUE
+            ],
+            'status_kirim' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'default' => 'diproses',
+            ],
+            'status_bayar' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'default' => 'belum',
+            ],
+            'bukti_pembayaran' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
             ]
         ]);
 

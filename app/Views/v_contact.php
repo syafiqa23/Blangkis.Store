@@ -1,97 +1,78 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
-  <main id="main" class="main">
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+    <div>
+        <span class="blangkis-eyebrow">Kontak</span>
+        <h2 class="mb-1">Hubungi Blangkis Store</h2>
+        <p class="text-muted mb-0">Kami siap membantu pertanyaan produk, pesanan, dan kerja sama UMKM.</p>
+    </div>
+</div>
 
-    <div class="pagetitle">
-      <h1>Contact</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Contact</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section contact">
-
-      <div class="row gy-4">
-
+<section class="section contact">
+    <div class="row gy-4">
         <div class="col-xl-6">
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <i class="bi bi-geo-alt"></i>
-                <h3>Address</h3>
-                <p>A108 Adam Street,<br>New York, NY 535022</p>
-              </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="info-box card h-100">
+                        <i class="bi bi-geo-alt"></i>
+                        <h3>Alamat</h3>
+                        <p>Pakis, Malang<br>Jawa Timur</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info-box card h-100">
+                        <i class="bi bi-telephone"></i>
+                        <h3>Telepon</h3>
+                        <p>+62 812-3456-7890<br>+62 878-1234-5678</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info-box card h-100">
+                        <i class="bi bi-envelope"></i>
+                        <h3>Email</h3>
+                        <p>blangkis.store@gmail.com<br>admin@blangkonpakis.id</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info-box card h-100">
+                        <i class="bi bi-clock"></i>
+                        <h3>Jam Operasional</h3>
+                        <p>Senin - Sabtu<br>08.00 - 20.00 WIB</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <i class="bi bi-telephone"></i>
-                <h3>Call Us</h3>
-                <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <i class="bi bi-envelope"></i>
-                <h3>Email Us</h3>
-                <p>info@example.com<br>contact@example.com</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <i class="bi bi-clock"></i>
-                <h3>Open Hours</h3>
-                <p>Monday - Friday<br>9:00AM - 05:00PM</p>
-              </div>
-            </div>
-          </div>
-
         </div>
 
         <div class="col-xl-6">
-          <div class="card p-4">
-            <form action="forms/contact.php" method="post" class="php-email-form">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-3">Formulir Kontak</h5>
+                    <?= form_open('kontak/kirim', ['class' => 'row g-3 needs-validation', 'novalidate' => true]) ?>
+                    <div class="col-md-6">
+                        <input type="text" name="name" class="form-control" placeholder="Nama Anda" value="<?= old('name') ?>" required minlength="3">
+                        <div class="invalid-feedback">Nama wajib diisi.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" class="form-control" name="email" placeholder="Email Anda" value="<?= old('email') ?>" required>
+                        <div class="invalid-feedback">Email valid wajib diisi.</div>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="subject" placeholder="Subjek Pesan" value="<?= old('subject') ?>" required minlength="3">
+                        <div class="invalid-feedback">Subjek wajib diisi.</div>
+                    </div>
+                    <div class="col-md-12">
+                        <textarea class="form-control" name="message" rows="6" placeholder="Tulis pesan Anda di sini..." required minlength="10"><?= old('message') ?></textarea>
+                        <div class="invalid-feedback">Pesan minimal 10 karakter.</div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary w-100">Kirim Pesan</button>
+                    </div>
+                    <?= form_close() ?>
                 </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
+            </div>
         </div>
+    </div>
+</section>
 
-      </div>
-
-    </section>
-
-  </main><!-- End #main -->
-
-  <?= $this->endSection() ?>
+<?= $this->endSection() ?>

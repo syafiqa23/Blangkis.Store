@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use App\Models\ProductModel;
 use Dompdf\Dompdf;
-use App\controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class ProdukController extends BaseController
 {
@@ -26,10 +24,21 @@ class ProdukController extends BaseController
 
     public function create()
 {
+    if (!$this->validate([
+        'nama' => 'required|min_length[3]',
+        'deskripsi' => 'required|min_length[10]',
+        'harga' => 'required|numeric|greater_than[0]',
+        'jumlah' => 'required|integer|greater_than_equal_to[0]',
+        'foto' => 'permit_empty|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/webp]',
+    ])) {
+        return redirect()->back()->withInput()->with('failed', $this->validator->listErrors());
+    }
+
     $dataFoto = $this->request->getFile('foto');
 
     $dataForm = [
         'nama' => $this->request->getPost('nama'),
+        'deskripsi' => $this->request->getPost('deskripsi'),
         'harga' => $this->request->getPost('harga'),
         'jumlah' => $this->request->getPost('jumlah'),
         'created_at' => date("Y-m-d H:i:s")
@@ -38,7 +47,7 @@ class ProdukController extends BaseController
     if ($dataFoto->isValid()) {
         $fileName = $dataFoto->getRandomName();
         $dataForm['foto'] = $fileName;
-        $dataFoto->move('NiceAdmin/assets/img/', $fileName);
+        $dataFoto->move(FCPATH . 'NiceAdmin/assets/img', $fileName);
     }
 
     $this->product->insert($dataForm);
@@ -54,23 +63,38 @@ class ProdukController extends BaseController
 {
     $dataProduk = $this->product->find($id);
 
+    if (!$dataProduk) {
+        return redirect('produk')->with('failed', 'Produk tidak ditemukan.');
+    }
+
+    if (!$this->validate([
+        'nama' => 'required|min_length[3]',
+        'deskripsi' => 'required|min_length[10]',
+        'harga' => 'required|numeric|greater_than[0]',
+        'jumlah' => 'required|integer|greater_than_equal_to[0]',
+        'foto' => 'permit_empty|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/webp]',
+    ])) {
+        return redirect()->back()->withInput()->with('failed', $this->validator->listErrors());
+    }
+
     $dataForm = [
         'nama' => $this->request->getPost('nama'),
+        'deskripsi' => $this->request->getPost('deskripsi'),
         'harga' => $this->request->getPost('harga'),
         'jumlah' => $this->request->getPost('jumlah'),
         'updated_at' => date("Y-m-d H:i:s")
     ];
 
     if ($this->request->getPost('check') == 1) {
-        if ($dataProduk['foto'] != '' and file_exists("NiceAdmin/assets/img/" . $dataProduk['foto'] . "")) {
-            unlink("NiceAdmin/assets/img/" . $dataProduk['foto']);
+        if ($dataProduk['foto'] != '' and file_exists(FCPATH . "NiceAdmin/assets/img/" . $dataProduk['foto'] . "")) {
+            unlink(FCPATH . "NiceAdmin/assets/img/" . $dataProduk['foto']);
         }
 
         $dataFoto = $this->request->getFile('foto');
 
         if ($dataFoto->isValid()) {
             $fileName = $dataFoto->getRandomName();
-            $dataFoto->move('NiceAdmin/assets/img/', $fileName);
+            $dataFoto->move(FCPATH . 'NiceAdmin/assets/img', $fileName);
             $dataForm['foto'] = $fileName;
         }
     }
@@ -84,8 +108,12 @@ public function delete($id)
 {
     $dataProduk = $this->product->find($id);
 
-    if ($dataProduk['foto'] != '' and file_exists("NiceAdmin/assets/img/" . $dataProduk['foto'] . "")) {
-        unlink("NiceAdmin/assets/img/" . $dataProduk['foto']);
+    if (!$dataProduk) {
+        return redirect('produk')->with('failed', 'Produk tidak ditemukan.');
+    }
+
+    if ($dataProduk['foto'] != '' and file_exists(FCPATH . "NiceAdmin/assets/img/" . $dataProduk['foto'] . "")) {
+        unlink(FCPATH . "NiceAdmin/assets/img/" . $dataProduk['foto']);
     }
 
     $this->product->delete($id);
@@ -111,7 +139,7 @@ public function download()
     $dompdf->loadHtml($html);
 
     // (optional) setup the paper size and orientation
-    $dompdf->setPaper('A4', 'potrait');
+    $dompdf->setPaper('A4', 'portrait');
 
     // render html as PDF
     $dompdf->render();

@@ -21,7 +21,10 @@ class Home extends BaseController
     }
     public function index(): string
     {
-        $product = $this->product->findAll();
+        //if (!session()->get('isLoggedIn')) {
+        //  return redirect()->to('login');
+        //}
+        $product = $this->product->getWithCategory();
         $data['product'] = $product;
         return view('v_home', $data);
     }
@@ -48,5 +51,17 @@ class Home extends BaseController
         $data['product'] = $product;
 
         return view('v_profile', $data);
+    }
+    public function search()
+    {
+        $query = $this->request->getPost('query');
+        // Lakukan pencarian, misal ke tabel product
+        $productModel = new \App\Models\ProductModel();
+        $results = $productModel
+            ->like('nama', $query)
+            ->orLike('deskripsi', $query)
+            ->findAll();
+
+        return view('v_search_result', ['results' => $results, 'query' => $query]);
     }
 }

@@ -11,17 +11,17 @@ if (uri_string() != "") {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <title>Blangkis Store - <?= esc($hlm) ?></title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="<?php echo base_url() ?>NiceAdmin/assets/img/favicon.png" rel="icon">
-    <link href="<?php echo base_url() ?>NiceAdmin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="<?php echo base_url() ?>NiceAdmin/assets/img/logo_blangkon.jpg" rel="icon">
+    <link href="<?php echo base_url() ?>NiceAdmin/assets/img/logo_blangkon.jpg" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="<?php echo base_url() ?>NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +34,7 @@ if (uri_string() != "") {
 
     <!-- Template Main CSS File -->
     <link href="<?php echo base_url() ?>NiceAdmin/assets/css/style.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>NiceAdmin/assets/css/blangkis-theme.css" rel="stylesheet">
 
     <!-- =======================================================
   * Template Name: NiceAdmin
@@ -53,14 +54,14 @@ if (uri_string() != "") {
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Data Tables</h1>
+            <h1><?= esc($hlm) ?></h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Home</li>
                     <?php
                     if ($hlm != "Home") {
                     ?>
-                        <li class="breadcrumb-item"><?php echo $hlm ?></li>
+                        <li class="breadcrumb-item"><?= esc($hlm) ?></li>
                     <?php
                     }
                     ?>
@@ -74,7 +75,19 @@ if (uri_string() != "") {
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $hlm ?></h5>
+                            <h5 class="card-title"><?= esc($hlm) ?></h5>
+                            <?php if (session()->getFlashdata('success')) : ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <?= session()->getFlashdata('success') ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (session()->getFlashdata('failed') || session()->getFlashdata('error')) : ?>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <?= session()->getFlashdata('failed') ?: session()->getFlashdata('error') ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            <?php endif; ?>
                             <?= $this->renderSection('content') ?>
                         </div>
                     </div>
@@ -108,6 +121,7 @@ if (uri_string() != "") {
 
     <!-- Template Main JS File -->
     <script src="<?php echo base_url() ?>NiceAdmin/assets/js/main.js"></script>
+    <script src="<?php echo base_url() ?>NiceAdmin/assets/js/blangkis-ui.js"></script>
     <?= $this->renderSection('script') ?> 
 </body>
 

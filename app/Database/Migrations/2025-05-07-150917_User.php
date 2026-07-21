@@ -20,6 +20,11 @@ class User extends Migration
                 'null' => FALSE,
                 'unique' => TRUE,
             ],
+            'name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
+            ],
             'email' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
@@ -35,6 +40,11 @@ class User extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'null' => FALSE,
+            ],
+            'avatar' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
             ],
             'created_at' => [
                 'type' => 'datetime',
