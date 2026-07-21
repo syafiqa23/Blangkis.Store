@@ -57,7 +57,7 @@ class ProdukController extends BaseController
 
 		/*
     fungsi dibawah ini yang bertanggung jawab untuk
-    menangani request dari http://localhost:8080/produk/edit/23
+    menangani request edit produk berdasarkan ID
     */
     public function edit($id)
 {

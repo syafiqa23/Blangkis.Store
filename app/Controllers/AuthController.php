@@ -28,7 +28,7 @@ class AuthController extends BaseController
     public function googleLogin()
     {
         if (!$this->isGoogleConfigured()) {
-            return redirect()->to('login')->with('failed', 'Konfigurasi Google Login belum lengkap.');
+            return redirect()->to(base_url('login'))->with('failed', 'Konfigurasi Google Login belum lengkap.');
         }
 
         $authUrl = $this->google->getAuthorizationUrl([
@@ -47,7 +47,7 @@ class AuthController extends BaseController
 
         if (empty($code) || ($state !== session()->get('oauth2state'))) {
             session()->remove('oauth2state');
-            return redirect()->to('login')->with('failed', 'Login Google gagal. Silakan coba lagi.');
+            return redirect()->to(base_url('login'))->with('failed', 'Login Google gagal. Silakan coba lagi.');
         }
 
         try {
@@ -55,17 +55,17 @@ class AuthController extends BaseController
             $googleUser = $this->google->getResourceOwner($token);
         } catch (IdentityProviderException $e) {
             log_message('error', 'Google OAuth provider error: ' . $e->getMessage());
-            return redirect()->to('login')->with('failed', 'Login Google gagal: pastikan Redirect URI di Google Cloud sudah sesuai.');
+            return redirect()->to(base_url('login'))->with('failed', 'Login Google gagal: pastikan Redirect URI di Google Cloud sudah sesuai.');
         } catch (\Throwable $e) {
             log_message('error', 'Google OAuth error: ' . $e->getMessage());
-            return redirect()->to('login')->with('failed', 'Login Google gagal. Silakan coba lagi.');
+            return redirect()->to(base_url('login'))->with('failed', 'Login Google gagal. Silakan coba lagi.');
         }
 
         $userData = $googleUser->toArray();
         $email = $userData['email'] ?? null;
 
         if (!$email) {
-            return redirect()->to('login')->with('failed', 'Email Google tidak ditemukan.');
+            return redirect()->to(base_url('login'))->with('failed', 'Email Google tidak ditemukan.');
         }
 
         $user = $this->user->where('email', $email)->first();
@@ -189,7 +189,7 @@ public function register()
     $userModel = new \App\Models\UserModel();
     $userModel->insert($data);
 
-    return redirect()->to('login')->with('success', 'Akun berhasil dibuat!');
+    return redirect()->to(base_url('login'))->with('success', 'Akun berhasil dibuat!');
 }
 
 
@@ -197,7 +197,7 @@ public function register()
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('login');
+        return redirect()->to(base_url('login'));
     }
     
 }

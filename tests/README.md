@@ -76,7 +76,7 @@ It is collected in two formats: a simple text file that provides an overview as 
 as a comprehensive collection of HTML files that show the status of every line of code in the project.
 
 The text file can be found at **tests/coverage.txt**.
-The HTML files can be viewed by opening **tests/coverage/index.html** in your favorite browser.
+The HTML coverage files can be viewed from the generated coverage folder in your favorite browser.
 
 ## PHPUnit XML Configuration
 

@@ -2,7 +2,7 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
+-- Host: production database
 -- Waktu pembuatan: 28 Jun 2025 pada 19.25
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12

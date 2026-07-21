@@ -1,2 +1,26 @@
-RewriteEngine On
-RewriteRule ^(.*)$ public/$1 [L]
+# Disable directory browsing
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymlinks
+	RewriteEngine On
+
+	# Keep non-public CodeIgniter folders and deployment files unreachable
+	# when hosting cannot point the document root directly to /public.
+	RewriteRule ^(app|system|writable|tests|vendor)(/.*)?$ - [F,L]
+	RewriteRule ^(\.env|composer\.(json|lock)|spark|preload\.php|phpunit\.xml\.dist|db_ci4\.sql)$ - [F,L]
+
+	RewriteCond %{HTTP:Authorization} .
+	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+	RewriteRule ^public/ - [L]
+	RewriteRule ^$ public/ [L]
+	RewriteRule ^(.+)$ public/$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+	ErrorDocument 404 public/index.php
+</IfModule>
+
+ServerSignature Off
