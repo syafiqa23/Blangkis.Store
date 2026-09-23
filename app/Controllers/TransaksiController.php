@@ -361,6 +361,12 @@ class TransaksiController extends BaseController
             return redirect()->to(base_url('profile'))->with('failed', 'Anda tidak memiliki akses ke transaksi ini.');
         }
 
+        if (!$this->validate([
+            'bukti_pembayaran' => 'uploaded[bukti_pembayaran]|max_size[bukti_pembayaran,2048]|mime_in[bukti_pembayaran,image/jpg,image/jpeg,image/png,application/pdf]|ext_in[bukti_pembayaran,jpg,jpeg,png,pdf]',
+        ])) {
+            return redirect()->back()->with('failed', $this->validator->listErrors());
+        }
+
         $file = $this->request->getFile('bukti_pembayaran');
 
         if ($file && $file->isValid() && !$file->hasMoved()) {
